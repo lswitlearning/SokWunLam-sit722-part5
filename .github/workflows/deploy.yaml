@@ -65,4 +65,4 @@ jobs:
       # Step7: Expands the configuration template and deploys the microservice.
       #
       - name: Deploy
-        run: ./scripts/deploy.sh
+        run: chmod +x ./scripts/deploy.sh
