@@ -2,7 +2,7 @@
 resource "azurerm_kubernetes_cluster" "cluster" {
     name                = var.kubernetes_cluster_name
     location            = var.location
-    resource_group_name = azurerm_resource_group.project5.name
+    resource_group_name = azurerm_resource_group.deakinuni.name
     dns_prefix          = var.app_name
     kubernetes_version  = var.kubernetes_version
 
