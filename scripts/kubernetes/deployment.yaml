@@ -20,7 +20,7 @@ spec:
         - containerPort: 8000
         env:
         - name: DATABASE_URL
-          value: "${DATABASE_URL_BOOK_CATALOG}"
+          value: "postgresql://projectpart5_v6vb_user:AfkEuDFZYIdbvgbq9hAm3rly9nOkoZjb@dpg-crh6edlsvqrc7388l790-a.oregon-postgres.render.com/projectpart5_v6vb"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -43,7 +43,7 @@ spec:
         - containerPort: 8000
         env:
         - name: DATABASE_URL
-          value: "${DATABASE_URL_INVENTORY_MANAGEMENT}"
+          value: "postgresql://projectpart5_v6vb_user:AfkEuDFZYIdbvgbq9hAm3rly9nOkoZjb@dpg-crh6edlsvqrc7388l790-a.oregon-postgres.render.com/projectpart5_v6vb"
 ---
 apiVersion: v1
 kind: Service
