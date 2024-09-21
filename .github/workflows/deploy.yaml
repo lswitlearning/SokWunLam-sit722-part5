@@ -1,0 +1,59 @@
+name: Deploy microservice
+
+on:
+  push: 
+    branches:
+      - main
+
+  workflow_dispatch: 
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    
+    env:
+      VERSION: ${{ github.sha }}
+      CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
+      REGISTRY_UN: ${{ secrets.REGISTRY_UN }}
+      REGISTRY_PW: ${{ secrets.REGISTRY_PW  }}
+
+    steps:
+      
+      # Step1: Checks-out your repository under 
+      - uses: actions/checkout@v3
+
+      # Step2: Set up Terraform
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
+
+      # Step3: Terraform 
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+      
+      # Step4: Builds the Docker image.
+      - name: Build
+        run: ./scripts/build-image.sh
+
+      # Step5: Publishes the Docker image to the container registry.
+      - name: Publish
+        run: ./scripts/push-image.sh
+
+      # Step6: Installs Kubectl and connects it to the cluster.
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+          kubectl-version: v1.24.2
+      
+      #
+      # Step7: Expands the configuration template and deploys the microservice.
+      #
+      - name: Deploy
+        run: ./scripts/deploy.sh

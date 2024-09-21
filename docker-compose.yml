@@ -1,0 +1,21 @@
+# Your Solution
+version: '3.8'
+
+services:
+  book_catalog:
+    image: project5.azurecr.io/book_catalog:latest
+    container_name: book_catalog
+    ports:
+      - "8001:8000"
+    environment:
+      - DATABASE_URL=postgresql://projectpart5_v6vb_user:AfkEuDFZYIdbvgbq9hAm3rly9nOkoZjb@dpg-crh6edlsvqrc7388l790-a.oregon-postgres.render.com/projectpart5_v6vb
+
+  inventory_management:
+    image: project5.azurecr.io/inventory_management:latest
+    container_name: inventory_management
+    ports:
+      - "8002:8000"
+    environment:
+      - DATABASE_URL=postgresql://projectpart5_v6vb_user:AfkEuDFZYIdbvgbq9hAm3rly9nOkoZjb@dpg-crh6edlsvqrc7388l790-a.oregon-postgres.render.com/projectpart5_v6vb
+
+  
