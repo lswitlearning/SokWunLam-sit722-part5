@@ -4,11 +4,11 @@ variable "location" {
 }
 
 variable "container_registry_name" {
-  default     = "sit722projectpart5C"
+  default     = "sit722projectpart5D"
 }
 
 variable "kubernetes_cluster_name" {
-  default     = "sit722projectpart5C"
+  default     = "sit722projectpart5D"
 }
 
 variable app_name {

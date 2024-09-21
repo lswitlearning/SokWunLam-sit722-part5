@@ -48,12 +48,20 @@ jobs:
         working-directory: ./terraform
       
       # Step5: Builds the Docker image.
-      - name: Make build-image.sh executable and build
-        run: chmod +x ./scripts/build-image.sh
+      - name: Build book_catalog image
+        run: docker build -t "${{ env.CONTAINER_REGISTRY }}/book_catalog:${{ env.VERSION }}" -f book_catalog/Dockerfile .
 
-      # Step6: Publishes the Docker image to the container registry.
-      - name: Publish
-        run: chmod +x ./scripts/push-image.sh
+      - name: Build inventory_management image
+        run: docker build -t "${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ env.VERSION }}" -f inventory_management/Dockerfile .
+
+      # Step 6: Publish the Docker images to the container registry
+      - name: Push Docker images to Container Registry
+        run: |
+          # Push the book_catalog image
+          docker push "${{ env.CONTAINER_REGISTRY }}/book_catalog:${{ env.VERSION }}"
+
+          # Push the inventory_management image
+          docker push "${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ env.VERSION }}"
 
       # Step7: Installs Kubectl and connects it to the cluster.
       - uses: azure/aks-set-context@v3
