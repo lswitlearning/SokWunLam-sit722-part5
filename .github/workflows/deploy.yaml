@@ -58,7 +58,7 @@ jobs:
       # Step6: Installs Kubectl and connects it to the cluster.
       - uses: azure/aks-set-context@v3
         with:
-          resource-group: 'deakinuni'
+          resource-group: 'projectpart5'
           cluster-name: '${{ secrets.AKS_CLUSTER_NAME }}'
       
       #
