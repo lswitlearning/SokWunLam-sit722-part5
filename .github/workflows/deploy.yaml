@@ -48,8 +48,8 @@ jobs:
         working-directory: ./terraform
       
       # Step4: Builds the Docker image.
-      - name: Build
-        run: ./scripts/build-image.sh
+      - name: Make build-image.sh executable and build
+        run: chmod +x ./scripts/build-image.sh
 
       # Step5: Publishes the Docker image to the container registry.
       - name: Publish
