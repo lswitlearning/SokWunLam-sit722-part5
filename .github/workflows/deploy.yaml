@@ -17,6 +17,7 @@ jobs:
       CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
       REGISTRY_UN: ${{ secrets.REGISTRY_UN }}
       REGISTRY_PW: ${{ secrets.REGISTRY_PW  }}
+      REGISTRY_NAME: ${{ env.REGISTRY_NAME }}
 
     steps:
       
@@ -52,7 +53,6 @@ jobs:
       - name: Log in to Azure Container Registry
         run: |
           az acr login --name ${{ env.REGISTRY_NAME }}
-
 
       # Step5: Builds the Docker image.
       - name: Build book_catalog image
