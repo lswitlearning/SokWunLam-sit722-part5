@@ -64,11 +64,8 @@ jobs:
       # Step 6: Publish the Docker images to the container registry
       - name: Push Docker images to Container Registry
         run: |
-          # Push the book_catalog image
-          docker push "${{ env.CONTAINER_REGISTRY }}/book_catalog:${{ env.VERSION }}"
-
-          # Push the inventory_management image
-          docker push "${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ env.VERSION }}"
+          chmod +x ./scripts/push-images.sh
+          ./scripts/push-images.sh
 
       # Step7: Installs Kubectl and connects it to the cluster.
       - uses: azure/aks-set-context@v3
