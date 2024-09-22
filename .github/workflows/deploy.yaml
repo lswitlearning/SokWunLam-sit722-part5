@@ -30,63 +30,53 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # # Step3: Set up Terraform
-      # - uses: hashicorp/setup-terraform@v3
-      #   with:
-      #     terraform_version: 1.9.0
+      # Step3: Set up Terraform
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
 
-      # # Step4: Terraform 
-      # - name: Terraform init
-      #   run: terraform init
-      #   working-directory: ./terraform
+      # Step4: Terraform 
+      - name: Terraform init
+        run: terraform init
+        working-directory: ./terraform
 
-      # - name: Terraform Plan
-      #   run: terraform plan
-      #   working-directory: ./terraform
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: ./terraform
 
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve
-      #   working-directory: ./terraform
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: ./terraform
 
-
-      # Step 3: Log in to Azure Container Registry
+      # Step5: Log in to Azure Container Registry
       - name: Log in to Azure Container Registry
         run: |
           az acr login --name ${{ env.REGISTRY_NAME }}
 
 
-      # Step5: Builds the Docker image.
+      # Step6: Builds the Docker image.
       - name: Build Docker images
         run: |
           chmod +x ./scripts/build-image.sh
           ./scripts/build-image.sh
 
-      # Step 6: Publish the Docker images to the container registry
+      # Step7: Publish the Docker images to the container registry
       - name: Push Docker images to Container Registry
         run: |
           chmod +x ./scripts/push-image.sh
           ./scripts/push-image.sh
 
-      # Step7: Installs Kubectl and connects it to the cluster.
+      # Step8: Installs Kubectl and connects it to the cluster
       - uses: azure/aks-set-context@v3
         with:
           resource-group: 'projectpart5'
           cluster-name: '${{ secrets.AKS_CLUSTER_NAME }}'
       
-
+      # Step9: Substitute environment variables in the deployment file
       - name: substitute environment variables
         run: envsubst < scripts/kubernetes/deployment.yaml > scripts/kubernetes/deployment-withenv.yaml
 
-      # #step 7: Deploy to AKS
-      # - uses: Azure/k8s-deploy@v5
-      #   with:
-      #     manifests: |
-      #       scripts/kubernetes/deployment-withenv.yaml
-      #     images: | 
-      #       '${{ env.CONTAINER_REGISTRY }}/book_catalog:${{ env.VERSION }}'
-      #       '${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ env.VERSION }}'
-
-      # Step 7: Deploy to AKS
+      # Step 10: Deploy to AKS
       - name: Deploy to AKS
         run: |
           chmod +x ./scripts/deploy.sh
