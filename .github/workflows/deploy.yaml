@@ -64,8 +64,8 @@ jobs:
       # Step 6: Publish the Docker images to the container registry
       - name: Push Docker images to Container Registry
         run: |
-          chmod +x ./scripts/push-images.sh
-          ./scripts/push-images.sh
+          chmod +x ./scripts/push-image.sh
+          ./scripts/push-image.sh
 
       # Step7: Installs Kubectl and connects it to the cluster.
       - uses: azure/aks-set-context@v3
@@ -77,9 +77,6 @@ jobs:
       - name: substitute environment variables
         run: envsubst < scripts/kubernetes/deployment.yaml > scripts/kubernetes/deployment-withenv.yaml
 
-      #
-      # Step8: Expands the configuration template and deploys the microservice.
-      #
       #step 7: Deploy to AKS
       - uses: Azure/k8s-deploy@v5
         with:
