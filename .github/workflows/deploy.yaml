@@ -49,10 +49,7 @@ jobs:
       #   working-directory: ./terraform
       
 
-      # Step 3: Log in to Azure Container Registry
-      - name: Log in to Azure Container Registry
-        run: |
-          az acr login --name ${{ env.REGISTRY_NAME }}
+
 
       # Step5: Builds the Docker image.
       - name: Build book_catalog image
@@ -62,6 +59,13 @@ jobs:
       - name: Build inventory_management image
         working-directory: ./book_catalog
         run: docker build -t "${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ env.VERSION }}" .
+
+      # Step 3: Log in to Azure Container Registry
+      - name: Log in to Azure Container Registry
+        run: |
+          az acr login --name ${{ env.REGISTRY_NAME }}
+
+
 
       # Step 6: Publish the Docker images to the container registry
       - name: Push Docker images to Container Registry
