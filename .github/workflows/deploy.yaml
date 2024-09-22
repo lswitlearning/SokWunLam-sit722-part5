@@ -80,6 +80,10 @@ jobs:
           resource-group: 'projectpart5'
           cluster-name: '${{ secrets.AKS_CLUSTER_NAME }}'
       
+
+      - name: substitute environment variables
+        run: envsubst < scripts/kubernetes/deployment.yaml > scripts/kubernetes/deployment-withenv.yaml
+
       #
       # Step8: Expands the configuration template and deploys the microservice.
       #
@@ -87,7 +91,7 @@ jobs:
       - uses: Azure/k8s-deploy@v5
         with:
           manifests: |
-            scripts/kubernetes/deployment.yaml
+            scripts/kubernetes/deployment-withenv.yaml
           images: | 
             '${{ env.CONTAINER_REGISTRY }}/book_catalog:${{ env.VERSION }}'
             '${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ env.VERSION }}'
