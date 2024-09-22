@@ -56,14 +56,10 @@ jobs:
 
 
       # Step5: Builds the Docker image.
-      - name: Build book_catalog image
-        working-directory: ./book_catalog
-        run: docker build -t "${{ env.CONTAINER_REGISTRY }}/book_catalog:${{ env.VERSION }}" .
-
-      - name: Build inventory_management image
-        working-directory: ./book_catalog
-        run: docker build -t "${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ env.VERSION }}" .
-
+      - name: Build Docker images
+        run: |
+          chmod +x ./build-images.sh
+          ./build-images.sh
 
       # Step 6: Publish the Docker images to the container registry
       - name: Push Docker images to Container Registry

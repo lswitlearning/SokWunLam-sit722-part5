@@ -1,9 +1,9 @@
-#build-image.sh
-
 #!/bin/bash
 
+#build-image.sh
+
 # Stop the script if any error occurs
-set -euo pipefail
+set -e
 
 docker build -t "${CONTAINER_REGISTRY}/book_catalog:${VERSION}" -f book_catalog/Dockerfile ./book_catalog
 
