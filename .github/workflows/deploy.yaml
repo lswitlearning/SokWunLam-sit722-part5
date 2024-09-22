@@ -29,23 +29,23 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Step3: Set up Terraform
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.9.0
+      # # Step3: Set up Terraform
+      # - uses: hashicorp/setup-terraform@v3
+      #   with:
+      #     terraform_version: 1.9.0
 
-      # Step4: Terraform 
-      - name: Terraform init
-        run: terraform init
-        working-directory: ./terraform
+      # # Step4: Terraform 
+      # - name: Terraform init
+      #   run: terraform init
+      #   working-directory: ./terraform
 
-      - name: Terraform Plan
-        run: terraform plan
-        working-directory: ./terraform
+      # - name: Terraform Plan
+      #   run: terraform plan
+      #   working-directory: ./terraform
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-        working-directory: ./terraform
+      # - name: Terraform Apply
+      #   run: terraform apply -auto-approve
+      #   working-directory: ./terraform
       
       # Step5: Builds the Docker image.
       - name: Build book_catalog image
