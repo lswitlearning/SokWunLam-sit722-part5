@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Push-image.sh
 
 # Stop the script if any error occurs

@@ -89,5 +89,5 @@ jobs:
           manifests: |
             scripts/kubernetes/deployment.yaml
           images: | 
-            '${{ env.CONTAINER_REGISTRY }}/book_catalog:${{ github.sha }}'
-            '${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ github.sha }}'
+            '${{ env.CONTAINER_REGISTRY }}/book_catalog:${{ env.VERSION }}'
+            '${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ env.VERSION }}'
