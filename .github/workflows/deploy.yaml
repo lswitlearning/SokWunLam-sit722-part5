@@ -47,8 +47,12 @@ jobs:
       # - name: Terraform Apply
       #   run: terraform apply -auto-approve
       #   working-directory: ./terraform
-      
 
+
+      # Step 3: Log in to Azure Container Registry
+      - name: Log in to Azure Container Registry
+        run: |
+          az acr login --name ${{ env.REGISTRY_NAME }}
 
 
       # Step5: Builds the Docker image.
@@ -59,12 +63,6 @@ jobs:
       - name: Build inventory_management image
         working-directory: ./book_catalog
         run: docker build -t "${{ env.CONTAINER_REGISTRY }}/inventory_management:${{ env.VERSION }}" .
-
-      # Step 3: Log in to Azure Container Registry
-      - name: Log in to Azure Container Registry
-        run: |
-          az acr login --name ${{ env.REGISTRY_NAME }}
-
 
 
       # Step 6: Publish the Docker images to the container registry
@@ -85,5 +83,9 @@ jobs:
       #
       # Step8: Expands the configuration template and deploys the microservice.
       #
-      - name: Deploy
-        run: chmod +x ./scripts/deploy.sh
+      #step 7: Deploy to AKS
+      - uses: Azure/k8s-deploy@v5
+        with:
+          manifests: |
+            scripts/kubernetes/deployment.yaml
+          images: '${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}'
